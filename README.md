@@ -1,16 +1,17 @@
 # ERD for COFFEE SHOP
 
 ```mermaid
-erDiagram
+erDiagram 
     users {
         bigint id pk
-        varchar email
+        varchar email 
         varchar password
+        varchar role
         timestamp created_at
         timestamp deleted_at
     }
 
-    payment_methods {
+    payment_methods { 
         int id pk
         varchar name
         varchar image
@@ -24,6 +25,7 @@ erDiagram
         numeric price
         varchar category 
         int stock
+        int category_id
         timestamp created_at
         timestamp deleted_at
     }
@@ -91,14 +93,14 @@ erDiagram
         int promo_id fk
     }
 
-    product_categories { 
-        int product_id fk
-        int category_id fk
-    }
+
     promos {
         int id pk
+        varchar title
         varchar description
         float percentage
+        timestamp start
+        timestamp end 
     }
 
 
@@ -114,13 +116,12 @@ erDiagram
     orders_products ||--|| sizes : "has size"
     orders_products ||--|| products : "refers to product"
 
-    product_categories ||--o{ products : "categorizes"
-    product_categories ||--|| categories : "belongs to category"
 
     promos ||--o{ products_promos : "applied to products"
     products ||--o{ products_sizes_available : "available in sizes"
     products ||--o{ product_images : "has images"
     products ||--o{ products_promos : "can have promos"
+    products ||--o{ categories : "categorizes"
 
     sizes ||--o{ products_sizes_available : "used in products"
 
