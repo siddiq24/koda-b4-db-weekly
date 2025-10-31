@@ -4,7 +4,7 @@
 
 CREATE TABLE users(
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     deleted_at TIMESTAMP
@@ -12,7 +12,7 @@ CREATE TABLE users(
 
 CREATE TABLE payment_methods(
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR NOT NULL,
+    name VARCHAR UNIQUE NOT NULL,
     image VARCHAR(100) NOT NULL,
     no_va VARCHAR(50) NOT NULL
 );
@@ -29,7 +29,7 @@ CREATE TABLE sizes (
 
 CREATE TABLE products (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
+    title VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255),
     price NUMERIC NOT NULL DEFAULT 0,
     stock INT,
@@ -40,7 +40,7 @@ CREATE TABLE products (
 
 CREATE TABLE categories(
     id int generated always as identity PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL UNIQUE
 )
 
 CREATE TABLE promos (
@@ -53,7 +53,7 @@ CREATE TABLE promos (
 
 CREATE TABLE status (
     id int generated always as identity PRIMARY KEY,
-    name VARCHAR(20)
+    name VARCHAR(20) NOT NULL UNIQUE
 );
 
 
@@ -65,7 +65,7 @@ CREATE TABLE profiles (
     user_id BIGINT UNIQUE REFERENCES users(id),
     fullname VARCHAR(50),
     image VARCHAR(100),
-    phone VARCHAR(20),
+    phone VARCHAR(20) UNIQUE,
     address VARCHAR
 );
 
@@ -105,7 +105,7 @@ CREATE TABLE orders(
     shipping_id INT NOT NULL,
     payment_method_id INT REFERENCES payment_methods(id),
     total_order NUMERIC NOT NULL,
-    no_order VARCHAR(50),
+    no_order VARCHAR(50) UNIQUE,
     status_id INT REFERENCES status(id),
     promo_id INT REFERENCES promos(id),
     created_at TIMESTAMP DEFAULT now()
