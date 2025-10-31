@@ -6,6 +6,7 @@ CREATE TABLE users(
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR NOT NULL,
+    role VARCHAR(20),
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     deleted_at TIMESTAMP
 );
