@@ -2,20 +2,12 @@
 
 ```mermaid
 erDiagram
-
     users {
         bigint id pk
         varchar email
         varchar password
         timestamp created_at
-    }
-
-    profiles {
-        bigint id pk
-        varchar fullname
-        varchar image
-        varchar phone
-        varchar address
+        timestamp deleted_at
     }
 
     payment_methods {
@@ -25,20 +17,59 @@ erDiagram
         varchar no_va
     }
 
-    sizes {
-        int id pk
-        varchar name
-    }
-
     products {
         int id pk
         varchar title
         varchar description
         numeric price
-        varchar category
+        varchar category 
         int stock
         timestamp created_at
         timestamp deleted_at
+    }
+
+    shippings {
+        int id pk
+        varchar name
+    }
+
+    categories{
+        int id pk
+        varchar name
+    }
+
+    products_sizes_available {
+        int product_id fk
+        int size_id fk
+    }
+
+    sizes {
+        int id pk
+        varchar name
+    }
+    orders {
+        bigint id pk
+        bigint user_id fk
+        int shipping_id fk
+        int payment_method_id fk
+        numeric total_order
+        varchar no_order
+        timestamp created_at
+        int status_id fk
+    }
+
+    profiles {
+        bigint id pk
+        bigint user_id fk
+        varchar fullname
+        varchar image
+        varchar phone
+        varchar address
+    }
+
+    status {
+        int id pk
+        varchar name
     }
 
     product_images {
@@ -47,21 +78,6 @@ erDiagram
         varchar image
     }
 
-    products_sizes_available {
-        int product_id fk
-        int size_id fk
-    }
-
-    orders {
-        bigint id pk
-        bigint user_id fk
-        varchar shipping
-        int payment_method_id fk
-        numeric total_order
-        varchar no_order
-        timestamp created_at
-        varchar status
-    }
 
     orders_products {
         bigint order_id fk
@@ -75,26 +91,38 @@ erDiagram
         int promo_id fk
     }
 
+    product_categories { 
+        int product_id fk
+        int category_id fk
+    }
     promos {
         int id pk
         varchar description
         float percentage
     }
 
-    users ||--|| profiles : "has"
-    users ||--o{ orders : "makes"
-    orders ||--|| payment_methods : "uses"
 
-    orders ||--o{ orders_products : "contains"
-    orders_products ||--|| products : "includes"
+    users ||--|| profiles : "has profile"
+    users ||--o{ orders : "makes orders"
+
+    orders ||--|{ payment_methods : "uses payment method"
+    orders ||--o{ orders_products : "contains products"
+    orders ||--o{ shippings : "has shipping"
+    orders ||--o{ status : "has status"
+    orders ||--o{ promos : "applies promo"
+
     orders_products ||--|| sizes : "has size"
+    orders_products ||--|| products : "refers to product"
 
-    products ||--o{ product_images : "has"
-    products ||--o{ products_promos : "can have"
-    products ||--o{ products_sizes_available : "available in"
+    product_categories ||--o{ products : "categorizes"
+    product_categories ||--|| categories : "belongs to category"
 
-    promos ||--o{ products_promos : "applied to"
-    sizes ||--o{ products_sizes_available : "used in"
+    promos ||--o{ products_promos : "applied to products"
+    products ||--o{ products_sizes_available : "available in sizes"
+    products ||--o{ product_images : "has images"
+    products ||--o{ products_promos : "can have promos"
+
+    sizes ||--o{ products_sizes_available : "used in products"
 
 
 ```
