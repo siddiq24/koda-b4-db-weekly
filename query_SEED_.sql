@@ -28,12 +28,12 @@ INSERT INTO shippings ( name ) VALUES
 ('Pick Up')
 ;
 
-INSERT INTO sizes ( name ) VALUES
-('R'),
-('L'),
-('XL'),
-('250 gr'),
-('500 gr')
+INSERT INTO sizes ( name, additional_price ) VALUES
+('R', 0),
+('L', 5000),
+('XL', 8000),
+('250 gr', 50000),
+('500 gr', 75000)
 ;
 
 INSERT INTO categories( name ) VALUES
@@ -44,10 +44,11 @@ INSERT INTO categories( name ) VALUES
 ('Foods'),
 ('Ice Blended'),
 ('Signature'),
+('Nusantara'),
 ('Add-On')
 ;
 
-INSERT INTO products ( title, description, price, stock, category_id ) VALUES
+INSERT INTO products ( title, description, base_price, stock, category_id ) VALUES
 ('Ice Americano', 'An espresso shot mixed with a glass of water, delivering an ideal balance of character, aroma, and flavor.', 22000, 200, 1),
 ('Iced Bumi Latte', 'The creamy and subtly sweet sensation of caramel and butterscotch sauce blends with authentic Indonesian coffee', 24000, 200, 1),
 ('Iced Cappuccino', 'Blend of espresso and milk with a think layer of foam on top without additional sugar.', 29000, 200, 1),
@@ -92,9 +93,9 @@ INSERT INTO products ( title, description, price, stock, category_id ) VALUES
 
 ('Pain au Chocolat', 'Pain au Chocolat', 29000, 50, 5),
 ('Kouign-Amann', 'Pastry with a layer of sugar and sprinkle of cinnamon', 29000, 50, 5),
-('Caramel Praline Coffee Ice Blended', 'Ice blended latte with Praline and caramel sauce.', 33000, 60, 6)
+('Caramel Praline Coffee Ice Blended', 'Ice blended latte with Praline and caramel sauce.', 33000, 60, 6),
 ('Matcha Ice Blended', 'Fore Coffee`s signature Creamy Matcha blend, fresh milk, with ice, just right to cool your day!', 33000, 60, 6),
-('Strawberry Ice Blended', '', 33000, 60, 6)
+('Strawberry Ice Blended', '', 33000, 60, 6),
 
 ('Chocolate Ice Blended', 'Ice blended special chocolate with selected milk', 36000, 60, 6),
 ('Iced Kopi Dari Tani', 'Bold flavors and aromas of Indonesian coffee pair with the richness of authentic Indonesian palm sugar', 24000, 70, 7),
@@ -102,7 +103,11 @@ INSERT INTO products ( title, description, price, stock, category_id ) VALUES
 ('Iced Buttercream Latte', 'Buttercream Coffee topping on caramel latte', 31000, 70, 7),
 ('Iced Aren Latte', 'The natural taste of palm sugar blends perfectly with premium espresso. Fore Coffee`s best selling menu', 29000, 70, 7),
 
-('Iced Pandan Latte', 'Latte with a unique taste and aroma from natural pandan extract. Special menu from Fore Coffee', 29000, 70, 7)
+('Iced Pandan Latte', 'Latte with a unique taste and aroma from natural pandan extract. Special menu from Fore Coffee', 29000, 70, 7),
+('Iced Aceh Gayo', 'Aromatic coffee with notes of chocolate, butterscotch and spices', 24000, 80, 8),
+('Iced Toraja Sapan', 'Aromatic coffee with notes of citrus, spices and molasses', 24000, 80, 8),
+('Iced Bali Kintamani', 'Aromatic coffee with fruity and citrus notes', 24000, 80, 8),
+('Iced Malty Latte', 'The irresistible Cafe Malt Latte revolutionized with a bold and sweet sensation.', 27000, 80, 8)
 ;
 
 -- INSERT INTO promos ( title, description, discount, start, end ) VALUES
@@ -176,8 +181,15 @@ INSERT INTO products_images( product_id, image ) VALUES
 (44, 'https://static.fore.coffee/product/Buttercream%20Latte%20(1).jpg'),
 (45, 'https://static.fore.coffee/product/Aren%20Latte%20Ice.jpg'),
 (45, 'https://static.fore.coffee/product/Aren%20Latte%20Hot.jpg'),
-(46, 'https://static.fore.coffee/product/Pandan%20Latte%20Iced.jpg')
-(46, 'https://static.fore.coffee/product/Pandan%20Latte%20Hot.jpg')
+(46, 'https://static.fore.coffee/product/Pandan%20Latte%20Iced.jpg'),
+(46, 'https://static.fore.coffee/product/Pandan%20Latte%20Hot.jpg'),
+(47, 'https://static.fore.coffee/product/ICED%20COD.jpg'),
+(47, 'https://static.fore.coffee/product/COD_satuan-01.jpg'),
+(48, 'https://static.fore.coffee/product/ICED%20COD.jpg'),
+(48, 'https://static.fore.coffee/product/COD_satuan-02.jpg'),
+(49, 'https://static.fore.coffee/product/ICED%20COD.jpg'),
+(49, 'https://static.fore.coffee/product/COD_satuan-03.jpg'),
+(50, 'https://static.fore.coffee/product/Malty%20Latte.jpg')
 ;
 
 
@@ -185,7 +197,7 @@ INSERT INTO products_images( product_id, image ) VALUES
 
 -- fk 2
 
-INSERT INTO products_sizes_available ( product_id, size_id ) VALUES 
+INSERT INTO products_sizes( product_id, size_id ) VALUES 
 (1, 1), (1, 2), (1, 3), (1, 4), (1, 5),
 (2, 1), (2, 2), (2, 3), (2, 4), (2, 5),
 (3, 1), (3, 2), (3, 3), (3, 4), (3, 5),
@@ -224,14 +236,3 @@ INSERT INTO products_sizes_available ( product_id, size_id ) VALUES
 -- (1, 5, 1, true, 2),
 -- (1, 6, 1, true, 2)
 -- ;
-
--- redux
--- context
--- docker
--- linux
--- golang
--- concurency
--- wg
--- db
--- erd, normalisasi
--- ddl. dml, dcl
