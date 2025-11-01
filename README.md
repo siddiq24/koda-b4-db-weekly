@@ -1,9 +1,9 @@
 # ERD for COFFEE SHOP
 
 ```mermaid
-erDiagram 
+erDiagram
     users {
-        bigint id pk
+        bigint id PK
         varchar email 
         varchar password
         varchar role
@@ -11,58 +11,62 @@ erDiagram
         timestamp deleted_at
     }
 
-    payment_methods { 
-        int id pk
+    payment_methods {
+        int     id      PK
         varchar name
         varchar image
         varchar no_va
     }
 
     products {
-        int id pk
+        int id PK
         varchar title
         varchar description
-        numeric price
-        varchar category 
+        numeric base_price
         int stock
-        int category_id
+        int category_id FK
         timestamp created_at
         timestamp deleted_at
+        timestamp updated_at
     }
 
     shippings {
-        int id pk
+        int id PK
         varchar name
     }
 
-    categories{
-        int id pk
+    categories {
+        int id PK
         varchar name
     }
 
-    products_sizes_available {
-        int product_id fk
-        int size_id fk
+    products_sizes {
+        int product_id FK
+        int size_id FK
+        numeric additional_price
     }
 
     sizes {
-        int id pk
+        int id PK
         varchar name
     }
+
     orders {
-        bigint id pk
-        bigint user_id fk
-        int shipping_id fk
-        int payment_method_id fk
+        bigint id PK
+        bigint user_id FK
+        int shipping_id FK
+        int payment_method_id FK
         numeric total_order
         varchar no_order
+        int status_id FK
+        int promo_id FK
         timestamp created_at
-        int status_id fk
+        timestamp updated_at
     }
 
     profiles {
-        bigint id pk
-        bigint user_id fk
+        bigint id PK
+        bigint user_id FK
         varchar fullname
         varchar image
         varchar phone
@@ -70,60 +74,55 @@ erDiagram
     }
 
     status {
-        int id pk
+        int id PK
         varchar name
     }
 
     product_images {
-        int id pk
-        int product_id fk
+        int id PK
+        int product_id FK
         varchar image
     }
 
-
     orders_products {
-        bigint order_id fk
-        int product_id fk
-        int size_id fk
+        bigint order_id FK
+        int product_id FK
+        int size_id FK
         bool is_ice
     }
 
     products_promos {
-        int product_id fk
-        int promo_id fk
+        int product_id FK
+        int promo_id FK
     }
-
 
     promos {
-        int id pk
+        int id PK
         varchar title
         varchar description
-        float percentage
+        float discount
         timestamp start
-        timestamp end 
+        timestamp end
     }
 
-
-    users ||--|| profiles : "has profile"
-    users ||--o{ orders : "makes orders"
-
-    orders ||--|{ payment_methods : "uses payment method"
-    orders ||--o{ orders_products : "contains products"
-    orders ||--o{ shippings : "has shipping"
-    orders ||--o{ status : "has status"
-    orders ||--o{ promos : "applies promo"
-
-    orders_products ||--|| sizes : "has size"
-    orders_products ||--|| products : "refers to product"
-
-
-    promos ||--o{ products_promos : "applied to products"
-    products ||--o{ products_sizes_available : "available in sizes"
-    products ||--o{ product_images : "has images"
-    products ||--o{ products_promos : "can have promos"
-    products ||--o{ categories : "categorizes"
-
-    sizes ||--o{ products_sizes_available : "used in products"
-
-
+    users ||--|| profiles : "has"
+    users ||--o{ orders : "makes"
+    
+    orders }|--|| payment_methods : "uses"
+    orders }|--|| shippings : "uses"           
+    orders ||--o{ orders_products : "contains"
+    orders }|--|| status : "has"
+    
+    orders_products }|--|| products : "refers_to"
+    
+    promos ||--o{ products_promos : "applies_to"
+    products ||--o{ products_promos : "has_promo"
+    products ||--o{ product_images : "has"
+    products }|--|| categories : "belongs_to"
+    
+    products ||--o{ products_sizes : "available_in"
+    sizes ||--o{ products_sizes : "available_for"
+    orders_products }|--|| sizes : "has"
+    
+    orders }o--|| promos : "applies"
 ```
