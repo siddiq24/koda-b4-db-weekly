@@ -25,13 +25,14 @@ CREATE TABLE shippings (
 
 CREATE TABLE sizes (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR(10) NOT NULL UNIQUE
+    name VARCHAR(10) NOT NULL UNIQUE,
+    additional_price NUMERIC NOT NULL
 );
 
 CREATE TABLE categories(
     id int generated always as identity PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE
-)
+);
 
 CREATE TABLE promos (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -56,7 +57,7 @@ CREATE TABLE products (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255),
-    price NUMERIC NOT NULL DEFAULT 0,
+    base_price NUMERIC,
     stock INT,
     category_id INT REFERENCES categories(id),
     created_at TIMESTAMP DEFAULT now(),
@@ -84,9 +85,10 @@ CREATE TABLE products_images(
 
 -- fk 2
 
-CREATE TABLE products_sizes_available (
+CREATE TABLE products_sizes (
     product_id BIGINT REFERENCES products(id),
-    size_id INT REFERENCES sizes(id)
+    size_id INT REFERENCES sizes(id),
+    CONSTRAINT products_sizes_unique UNIQUE(product_id, size_id)
 );
 
 CREATE TABLE products_promos (
@@ -107,7 +109,8 @@ CREATE TABLE orders(
     no_order VARCHAR(50) UNIQUE,
     status_id INT REFERENCES status(id),
     promo_id INT REFERENCES promos(id),
-    created_at TIMESTAMP DEFAULT now()
+    created_at TIMESTAMP DEFAULT now(),
+    updated_at TIMESTAMP
 );
 
 CREATE TABLE orders_products (
