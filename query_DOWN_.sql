@@ -1,7 +1,7 @@
 DROP TABLE orders_products;
 DROP TABLE orders;
 DROP TABLE products_promos;
-DROP TABLE products_sizes_available;
+DROP TABLE products_sizes;
 DROP TABLE products_images;
 DROP TABLE profiles;
 DROP TABLE status;
